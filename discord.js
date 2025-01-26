@@ -15,12 +15,12 @@ const GIF_CATALOG = [
     "https://media.giphy.com/media/5hvWaviAuSAl5BJvR2/giphy.gif?cid=ecf05e474k51cvxhbv9s60zblnoqnpskh4dl1jrq6ab5je5c&ep=v1_gifs_search&rid=giphy.gif&ct=g",
     "https://media.giphy.com/media/jdrgQXu2qdL1e/giphy.gif?cid=ecf05e474k51cvxhbv9s60zblnoqnpskh4dl1jrq6ab5je5c&ep=v1_gifs_search&rid=giphy.gif&ct=g",
     "https://media1.tenor.com/m/oOK47aHc4LQAAAAd/locked-medieval.gif",
-    "https://media1.tenor.com/m/nsCPdljF1SgAAAAd/spank-bottom.gif",
     "https://media1.tenor.com/m/QPkhyYGlnCMAAAAd/assume-the-position-spanking.gif",
     "https://media1.tenor.com/m/op8x4aQhTiUAAAAd/bunny-bunny-dessert.gif",
     "https://media1.tenor.com/m/1gdTO4zudN0AAAAd/james-bond-timothy-dalton.gif"
 ];
 
+let lastGif = "";
 
 const client = new Client({
     intents: [
@@ -67,10 +67,21 @@ client.on('interactionCreate', async (interaction) => {
         const mentionedUser = interaction.options.getUser('user');
 
         if (mentionedUser) {
-            const randomGif = GIF_CATALOG[Math.floor(Math.random() * GIF_CATALOG.length)];
+            let randomGif;
+
+            if (mentionedUser.id === process.env.OSIRIS_ID) {
+                randomGif = "https://media1.tenor.com/m/nsCPdljF1SgAAAAd/spank-bottom.gif";
+            } else {
+                do {
+                    randomGif = GIF_CATALOG[Math.floor(Math.random() * GIF_CATALOG.length)];
+                } while (randomGif === lastGif && GIF_CATALOG.length > 1);
+            }
+
+            lastGif = randomGif;
+
             const embed = new EmbedBuilder()
                 .setColor('#ff0000')
-                .setDescription(`Here is a funny GIF for you!`)
+                .setDescription(`You've been naughty!`)
                 .setImage(randomGif);
 
             await interaction.reply({
