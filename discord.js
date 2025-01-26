@@ -38,16 +38,17 @@ client.on('interactionCreate', async (interaction) => {
             const randomGif = GIF_CATALOG[Math.floor(Math.random() * GIF_CATALOG.length)];
             const embed = new EmbedBuilder()
                 .setColor('#ff0000')
-                .setDescription(`Here is a funny GIF for you!`) // General text inside the embed
+                .setDescription(`Here is a funny GIF for you!`)
                 .setImage(randomGif);
 
-            await interaction.reply(`<@${mentionedUser.id}> gets a spank!`);
-            await interaction.followUp({ embeds: [embed] });
+            await interaction.channel.send({
+                content: `<@${mentionedUser.id}> gets a spank!`,
+                embeds: [embed],
+            });
         } else {
             await interaction.reply('Please mention a user to send a spank!');
         }
     }
 });
-
 
 client.login(token);
