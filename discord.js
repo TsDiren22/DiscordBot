@@ -38,10 +38,11 @@ client.on('interactionCreate', async (interaction) => {
             const randomGif = GIF_CATALOG[Math.floor(Math.random() * GIF_CATALOG.length)];
             const embed = new EmbedBuilder()
                 .setColor('#ff0000')
-                .setDescription(`${mentionedUser.username} gets a spank!`)
+                .setDescription(`Here is a funny GIF for you!`) // General text inside the embed
                 .setImage(randomGif);
 
-            await interaction.reply({ embeds: [embed] });
+            await interaction.reply(`<@${mentionedUser.id}> gets a spank!`);
+            await interaction.followUp({ embeds: [embed] });
         } else {
             await interaction.reply('Please mention a user to send a spank!');
         }
