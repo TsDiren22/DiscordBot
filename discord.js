@@ -30,6 +30,16 @@ client.once('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
 });
 
+client.on('disconnect', () => {
+    console.error('The bot disconnected from Discord.');
+});
+
+client.on('shardReconnecting', id => {
+    console.log(`Reconnecting shard ${id}...`);
+});
+
+client.on('debug', console.debug);
+
 client.on('interactionCreate', async (interaction) => {
     if (!interaction.isChatInputCommand()) return;
 
