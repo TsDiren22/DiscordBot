@@ -20,7 +20,17 @@ const GIF_CATALOG = [
     "https://media1.tenor.com/m/1gdTO4zudN0AAAAd/james-bond-timothy-dalton.gif"
 ];
 
-let lastGif = "";
+const GIF_SPRAY = [
+    "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExdTJ5a214bWR6YXR3ajE0enB2OTZubHprYndzcXZmbmJybDB5b2JkdyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l378gODdla75xN0CA/giphy.gif",
+    "https://media1.tenor.com/m/gkpXfHuw8dgAAAAC/lysol-spray-spraying.gif",
+    "https://media1.tenor.com/m/d2W_6JMPvXYAAAAd/spray-bad.gif",
+    "https://media1.tenor.com/m/WjiCyeVOYvUAAAAC/spray-bottle-cat-spray-bottle.gif",
+    "https://media.tenor.com/svZprhzDZmgAAAAi/spray-stop.gif",
+    "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExc2kwNzV1aTE3OGFlbnZnNnJ3ZHZ4eHE1eHY2cjVlNXE0bTc3eXhmaSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/MZSBHPaa0Y7FMelPtN/giphy.gif"
+];
+
+let lastSpankGif = "";
+let lastSprayGif = "";
 
 const client = new Client({
     intents: [
@@ -92,10 +102,10 @@ client.on('interactionCreate', async (interaction) => {
             } else {
                 do {
                     randomGif = GIF_CATALOG[Math.floor(Math.random() * GIF_CATALOG.length)];
-                } while (randomGif === lastGif && GIF_CATALOG.length > 1);
+                } while (randomGif === lastSpankGif && GIF_CATALOG.length > 1);
             }
 
-            lastGif = randomGif;
+            lastSpankGif = randomGif;
 
             const embed = new EmbedBuilder()
                 .setColor('#ff0000')
@@ -108,6 +118,30 @@ client.on('interactionCreate', async (interaction) => {
             });
         } else {
             await interaction.reply('Please mention a user to send a spank!');
+        }
+    } else if (interaction.commandName === 'spray') {
+        const mentionedUser = interaction.options.getUser('user');
+
+        if (mentionedUser) {
+            let randomGif;
+
+            do {
+                randomGif = GIF_SPRAY[Math.floor(Math.random() * GIF_SPRAY.length)];
+            } while (randomGif === lastSprayGif && GIF_SPRAY.length > 1);
+
+            lastSprayGif = randomGif;
+
+            const embed = new EmbedBuilder()
+                .setColor('#ff0000')
+                .setDescription(`Get your act together!`)
+                .setImage(randomGif);
+
+            await interaction.reply({
+                content: `<@${mentionedUser.id}> gets sprayed!`,
+                embeds: [embed],
+            });
+        } else {
+            await interaction.reply('Please mention a user to spray someone!');
         }
     }
 });

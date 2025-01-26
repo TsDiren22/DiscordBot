@@ -19,6 +19,18 @@ const commands = [
             }
         ]
     },
+    {
+        name: 'spray',
+        description: 'Sprays someone!',
+        options: [
+            {
+                name: 'user',
+                type: ApplicationCommandOptionType.User,
+                description: 'The user to spray',
+                required: true
+            }
+        ]
+    },
 ];
 
 const rest = new REST({ version: '10' }).setToken(token);
