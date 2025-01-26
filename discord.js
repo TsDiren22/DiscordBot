@@ -2,7 +2,7 @@ require('dotenv').config();
 
 const http = require('http');
 const { Client, GatewayIntentBits, InteractionType, EmbedBuilder } = require('discord.js');
-
+const keep_alive = require('./keep-alive.js');
 const token = process.env.TOKEN;
 const PORT = process.env.PORT || 3000;
 
