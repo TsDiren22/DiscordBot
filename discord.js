@@ -54,6 +54,24 @@ client.rest.on('rateLimited', info => {
     console.warn(`Rate limit hit! Route: ${info.route}, Retry After: ${info.timeout}ms`);
 });
 
+client.on('shardDisconnect', (event, shardId) => {
+    console.warn(`Shard ${shardId} disconnected:`, event);
+    // Optionally, you can attempt to reconnect here
+});
+
+client.on('shardError', (error, shardId) => {
+    console.error(`Shard ${shardId} encountered an error:`, error);
+    // Optionally, you can attempt to reconnect here
+});
+
+process.on('unhandledRejection', error => {
+    console.error('Unhandled promise rejection:', error);
+});
+
+process.on('uncaughtException', error => {
+    console.error('Uncaught exception:', error);
+});
+
 client.guilds.cache.forEach(guild => {
     console.log(`Guild Name: ${guild.name}`);
 });
@@ -93,5 +111,12 @@ client.on('interactionCreate', async (interaction) => {
         }
     }
 });
+
+setInterval(() => {
+    if (!client.isReady()) {
+        console.log('Bot is not connected. Attempting to reconnect...');
+        client.login(token).catch(console.error);
+    }
+}, 60000);
 
 client.login(token);
