@@ -1,8 +1,10 @@
 require('dotenv').config();
 
+const http = require('http');
 const { Client, GatewayIntentBits, InteractionType, EmbedBuilder } = require('discord.js');
 
 const token = process.env.TOKEN;
+const PORT = process.env.PORT || 3000;
 
 const GIF_CATALOG = [
     "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExa2p2ZjJjcGJuZXdrOGFxbTVvcTJwdDA2ZDgxdDlmYzgxMWUzbWNkYyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/OWCdX4sTNt1frLfydK/giphy.gif",
