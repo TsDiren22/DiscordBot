@@ -41,8 +41,9 @@ client.on('interactionCreate', async (interaction) => {
                 .setDescription(`Here is a funny GIF for you!`)
                 .setImage(randomGif);
 
+            await interaction.reply({ content: `<@${mentionedUser.id}> gets a spank!`, ephemeral: false });
+
             await interaction.channel.send({
-                content: `<@${mentionedUser.id}> gets a spank!`,
                 embeds: [embed],
             });
         } else {
