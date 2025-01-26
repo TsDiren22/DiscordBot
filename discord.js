@@ -23,7 +23,11 @@ const GIF_CATALOG = [
 
 
 const client = new Client({
-    intents: [GatewayIntentBits.Guilds],
+    intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.MessageContent
+    ]
 });
 
 client.once('ready', () => {
@@ -34,8 +38,24 @@ client.on('disconnect', () => {
     console.error('The bot disconnected from Discord.');
 });
 
+client.on('shardReady', shardId => {
+    console.log(`Shard ${shardId} is ready!`);
+});
+
+client.on('shardResume', (shardId, replayedEvents) => {
+    console.log(`Shard ${shardId} resumed, replayed ${replayedEvents} events`);
+});
+
 client.on('shardReconnecting', id => {
     console.log(`Reconnecting shard ${id}...`);
+});
+
+client.rest.on('rateLimited', info => {
+    console.warn(`Rate limit hit! Route: ${info.route}, Retry After: ${info.timeout}ms`);
+});
+
+client.guilds.cache.forEach(guild => {
+    console.log(`Guild Name: ${guild.name}`);
 });
 
 client.on('debug', console.debug);
