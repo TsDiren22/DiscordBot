@@ -146,6 +146,15 @@ client.on('interactionCreate', async (interaction) => {
     }
 });
 
+const server = http.createServer((req, res) => {
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    res.end('Discord bot is running!');
+});
+
+server.listen(PORT, () => {
+    console.log(`HTTP server is running on port ${PORT}`);
+});
+
 setInterval(() => {
     if (!client.isReady()) {
         console.log('Bot is not connected. Attempting to reconnect...');
