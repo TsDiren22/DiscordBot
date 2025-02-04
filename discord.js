@@ -11,7 +11,6 @@ const GIF_CATALOG = [
     "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExa2p2ZjJjcGJuZXdrOGFxbTVvcTJwdDA2ZDgxdDlmYzgxMWUzbWNkYyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/6BZaFXBVPBtok/giphy.gif",
     "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExa2p2ZjJjcGJuZXdrOGFxbTVvcTJwdDA2ZDgxdDlmYzgxMWUzbWNkYyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/IEaRGHp4mskzBeAukn/giphy.gif",
     "https://media.giphy.com/media/cl3EMK5vlECNO2UJr2/giphy.gif?cid=790b7611kjvf2cpbnewk8aqm5oq2pt06d81t9fc811e3mcdc&ep=v1_gifs_search&rid=giphy.gif&ct=g",
-    "https://media.giphy.com/media/B3j9jHGiLgNFu/giphy.gif?cid=ecf05e47lcfb6df3vxnzvr4jfm850kna9obe9v40jr214mbg&ep=v1_gifs_search&rid=giphy.gif&ct=g",
     "https://media.giphy.com/media/5hvWaviAuSAl5BJvR2/giphy.gif?cid=ecf05e474k51cvxhbv9s60zblnoqnpskh4dl1jrq6ab5je5c&ep=v1_gifs_search&rid=giphy.gif&ct=g",
     "https://media.giphy.com/media/jdrgQXu2qdL1e/giphy.gif?cid=ecf05e474k51cvxhbv9s60zblnoqnpskh4dl1jrq6ab5je5c&ep=v1_gifs_search&rid=giphy.gif&ct=g",
     "https://media1.tenor.com/m/oOK47aHc4LQAAAAd/locked-medieval.gif",
@@ -96,13 +95,19 @@ client.on('interactionCreate', async (interaction) => {
 
         if (mentionedUser) {
             let randomGif;
+            let embedmessage
 
             if (mentionedUser.id === process.env.OSIRIS_ID) {
                 randomGif = "https://media1.tenor.com/m/nsCPdljF1SgAAAAd/spank-bottom.gif";
+                embedmessage = "gets a spank!";
+            } else if (mentionedUser.id === process.env.BEES_ID) {
+                randomGif = "https://media.giphy.com/media/B3j9jHGiLgNFu/giphy.gif?cid=ecf05e47lcfb6df3vxnzvr4jfm850kna9obe9v40jr214mbg&ep=v1_gifs_search&rid=giphy.gif&ct=g";
+                embedmessage = "A special spank for TinkerBee!"
             } else {
                 do {
                     randomGif = GIF_CATALOG[Math.floor(Math.random() * GIF_CATALOG.length)];
                 } while (randomGif === lastSpankGif && GIF_CATALOG.length > 1);
+                embedmessage = "gets a spank!";
             }
 
             lastSpankGif = randomGif;
@@ -113,7 +118,7 @@ client.on('interactionCreate', async (interaction) => {
                 .setImage(randomGif);
 
             await interaction.reply({
-                content: `<@${mentionedUser.id}> gets a spank!`,
+                content: `<@${mentionedUser.id}> <@${embedmessage}>`,
                 embeds: [embed],
             });
         } else {
