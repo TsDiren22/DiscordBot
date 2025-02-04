@@ -95,19 +95,18 @@ client.on('interactionCreate', async (interaction) => {
 
         if (mentionedUser) {
             let randomGif;
-            let embedmessage
+            let embedmessage = `<@${mentionedUser.id}> gets a spank!`;
 
             if (mentionedUser.id === process.env.OSIRIS_ID) {
                 randomGif = "https://media1.tenor.com/m/nsCPdljF1SgAAAAd/spank-bottom.gif";
-                embedmessage = "gets a spank!";
+
             } else if (mentionedUser.id === process.env.BEES_ID) {
                 randomGif = "https://media.giphy.com/media/B3j9jHGiLgNFu/giphy.gif?cid=ecf05e47lcfb6df3vxnzvr4jfm850kna9obe9v40jr214mbg&ep=v1_gifs_search&rid=giphy.gif&ct=g";
-                embedmessage = "A special spank for TinkerBee!"
+                embedmessage = `A special spank for TinkerBee! <@${mentionedUser.id}>`
             } else {
                 do {
                     randomGif = GIF_CATALOG[Math.floor(Math.random() * GIF_CATALOG.length)];
                 } while (randomGif === lastSpankGif && GIF_CATALOG.length > 1);
-                embedmessage = "gets a spank!";
             }
 
             lastSpankGif = randomGif;
@@ -118,7 +117,7 @@ client.on('interactionCreate', async (interaction) => {
                 .setImage(randomGif);
 
             await interaction.reply({
-                content: `<@${mentionedUser.id}> <@${embedmessage}>`,
+                content: embedmessage,
                 embeds: [embed],
             });
         } else {
