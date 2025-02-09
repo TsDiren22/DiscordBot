@@ -28,8 +28,19 @@ const GIF_SPRAY = [
     "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExc2kwNzV1aTE3OGFlbnZnNnJ3ZHZ4eHE1eHY2cjVlNXE0bTc3eXhmaSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/MZSBHPaa0Y7FMelPtN/giphy.gif"
 ];
 
+const GIF_FRYING_PAN = [
+    "https://media1.tenor.com/m/upg58VQYiQsAAAAC/tangled-frying-pan.gif",
+    "https://media1.tenor.com/m/CjZuCUGhuvIAAAAC/rapunzel-tangled.gif",
+    "https://media1.tenor.com/m/FdvaVxBVMOcAAAAC/maymay-entrata-marydale.gif",
+    "https://media1.tenor.com/m/-S5sE2UUEpQAAAAC/frying-pan-nelson-cheng.gif",
+    "https://media1.tenor.com/m/BH6E2yKFtEAAAAAC/y3ongi-shindong.gif",
+    "https://media1.tenor.com/m/bjxy1pcj8jkAAAAd/rapunzel-frying-pan.gif",
+    "https://media1.tenor.com/m/0UQsOqRlrRsAAAAd/dave-ardito.gif"
+]
+
 let lastSpankGif = "";
 let lastSprayGif = "";
+let lastFryingPanGif = "";
 
 const client = new Client({
     intents: [
@@ -65,12 +76,10 @@ client.rest.on('rateLimited', info => {
 
 client.on('shardDisconnect', (event, shardId) => {
     console.warn(`Shard ${shardId} disconnected:`, event);
-    // Optionally, you can attempt to reconnect here
 });
 
 client.on('shardError', (error, shardId) => {
     console.error(`Shard ${shardId} encountered an error:`, error);
-    // Optionally, you can attempt to reconnect here
 });
 
 process.on('unhandledRejection', error => {
@@ -146,6 +155,35 @@ client.on('interactionCreate', async (interaction) => {
             });
         } else {
             await interaction.reply('Please mention a user to spray someone!');
+        }
+    }
+    else if (interaction.commandName === 'fryingpan') {
+        const mentionedUser = interaction.options.getUser('user');
+
+        if (mentionedUser) {
+            let randomGif;
+            let content;
+
+            if (mentionedUser.id === interaction.user.id) {
+                content = "You can't hit yourself with a frying pan... or can you? 🤔";
+                randomGif = "https://media1.tenor.com/m/Y2dvFI9XnPYAAAAC/rapunzel-tangled.gif";
+            } else{
+                do {
+                    randomGif = GIF_FRYING_PAN[Math.floor(Math.random() * GIF_FRYING_PAN.length)];
+                } while (randomGif === lastFryingPanGif && GIF_FRYING_PAN.length > 1);
+                lastFryingPanGif = randomGif;
+                content = `<@${mentionedUser.id}> gets hit by a frying pan!`;
+            }
+
+            const embed = new EmbedBuilder()
+                .setColor('#ff0000')
+                .setDescription(`Get boinked!`)
+                .setImage(randomGif);
+
+            await interaction.reply({
+                content: content,
+                embeds: [embed],
+            });
         }
     }
 });
