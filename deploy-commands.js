@@ -31,6 +31,18 @@ const commands = [
             }
         ]
     },
+    {
+        name: 'fryingpan',
+        description: 'Hit someone with a frying pan!',
+        options: [
+            {
+                name: 'user',
+                type: ApplicationCommandOptionType.User,
+                description: 'The user to frying pan',
+                required: true
+            }
+        ]
+    },
 ];
 
 const rest = new REST({ version: '10' }).setToken(token);
