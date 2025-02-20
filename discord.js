@@ -134,6 +134,9 @@ client.on('interactionCreate', async (interaction) => {
             } else if (mentionedUser.id === process.env.BEES_ID) {
                 randomGif = "https://media.giphy.com/media/B3j9jHGiLgNFu/giphy.gif?cid=ecf05e47lcfb6df3vxnzvr4jfm850kna9obe9v40jr214mbg&ep=v1_gifs_search&rid=giphy.gif&ct=g";
                 embedmessage = `A special spank for TinkerBee! <@${mentionedUser.id}>`
+            } else if (mentionedUser.id === interaction.user.id) {
+                embedMessage = `Are you really so desperate, you need to spank yourself, <@${mentionedUser.id}>?`;
+                randomGif = "https://media1.tenor.com/m/IWFTMXtNxmEAAAAC/ass.gif";
             } else {
                 do {
                     randomGif = GIF_CATALOG[Math.floor(Math.random() * GIF_CATALOG.length)];
@@ -159,12 +162,18 @@ client.on('interactionCreate', async (interaction) => {
 
         if (mentionedUser) {
             let randomGif;
+            let content;
 
-            do {
-                randomGif = GIF_SPRAY[Math.floor(Math.random() * GIF_SPRAY.length)];
-            } while (randomGif === lastSprayGif && GIF_SPRAY.length > 1);
-
-            lastSprayGif = randomGif;
+            if (mentionedUser.id === interaction.user.id) {
+                content = `<@${mentionedUser.id}> just realised their own mistake.`;
+                randomGif = "https://media1.tenor.com/m/dSFcX_Bo2_wAAAAC/spray-water.gif";
+            } else{
+                do {
+                    randomGif = GIF_SPRAY[Math.floor(Math.random() * GIF_SPRAY.length)];
+                } while (randomGif === lastSprayGif && GIF_SPRAY.length > 1);
+                lastSprayGif = randomGif;
+                content = `<@${mentionedUser.id}> gets hit by a frying pan!`;
+            }
 
             const embed = new EmbedBuilder()
                 .setColor('#ff0000')
